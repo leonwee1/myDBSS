@@ -6,27 +6,30 @@ import os
 
 app = Flask(__name__)
 
-#https://console.groq.com/keys
-os.environ['GROQ_API_KEY'] = "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"  # replace with your actual API key
+# create GROQ_API_KEY via https://console.groq.com/keys
+api_key = os.getenv("GROQ_API_KEY")
+# Set it for Groq client or environment if needed
+os.environ["GROQ_API_KEY"] = api_key
 # for cloud ....
+
+
 @app.route("/llama",methods=["GET","POST"])
 def llama():
     return(render_template("llama.html"))
 
-@app.route("/llama_reply",methods=["GET","POST"])
+@app.route("/llama_reply", methods=["GET", "POST"])
 def llama_reply():
     q = request.form.get("q")
-    # load model
     client = Groq()
     completion = client.chat.completions.create(
         model="llama-3.1-8b-instant",
         messages=[
-            {
-                "role": "user",
-                "content": q
-            }
+            {"role": "user", "content": q}
         ]
     )
+    # Extract reply
+    reply = completion.choices[0].message.content
+    return render_template("llama_reply.html", q=q, r=reply)
 
 @app.route("/",methods=["GET","POST"])
 def index():
@@ -36,7 +39,7 @@ def index():
 def main():
     q = request.form.get("q")
     # db
-    return(render_template("main.html"))
+    return(render_template("main.html", myName=q))  # pass myName to main.html
 
 @app.route("/dbs",methods=["GET","POST"])
 def dbs():
