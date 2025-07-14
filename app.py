@@ -7,7 +7,7 @@ import os
 os.environ['GROQ_API_KEY'] = "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"  # replace with your actual API key
 # for cloud ....
 def llama_query():
-    client = Groq()
+    client = client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
     completion = client.chat.completions.create(
         model="llama-3.1-8b-instant",
