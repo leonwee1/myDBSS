@@ -4,7 +4,7 @@ from groq import Groq
 
 import os
 #https://console.groq.com/keys
-os.environ['GROQ_API_KEY'] = "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"  # replace with your actual API key
+#os.environ['GROQ_API_KEY'] = "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"  # replace with your actual API key
 # for cloud ....
 def llama_query():
     client = client = Groq(api_key=os.getenv("GROQ_API_KEY"))
